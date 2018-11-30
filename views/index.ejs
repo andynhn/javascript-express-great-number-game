@@ -1,0 +1,60 @@
+<!-- By Andy Nguyen
+Great Number Game Assignment - Create a site that when a user loads it creates a random number between 1-100 and stores the number in session. Allow the user to guess at the number and tell them when they are too high or too low. If they guess the correct number tell them and offer to play again.-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Great Number Game - Express</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="jumbotron bg-info text-white d-flex justify-content-center">
+            <h1>Welcome to the Great Number Game!</h1>
+        </div>
+        <h3 class="d-flex justify-content-center">I am thinking of an integer between 1 and 100.</h3>
+        <h4 class="d-flex justify-content-center">Take a guess!</h4>
+        
+
+        <% if (session.reply == 'low') { %>
+        <div class="row d-flex justify-content-center">
+            <p class="answer d-flex justify-content-center bg-<%=session.color%>">TOO LOW!</p>
+        </div>
+        <% } %>
+
+        <% if (session.reply == 'high') { %>
+        <div class="row d-flex justify-content-center">
+            <p class="answer d-flex justify-content-center bg-<%=session.color%>">TOO HIGH!</p>
+        </div>
+        <% } %>
+
+        <% if (session.reply == 'correct') { %>
+        <div class="row d-flex justify-content-center">
+            <p class="answer d-flex justify-content-center bg-<%=session.color%>"><%= session.number %> was the number!</p>
+        </div>
+        <% } %>
+
+        <div class="row d-flex justify-content-center">
+            <form action="/verify" method="post">
+                <% if (session.status != 'gameover') { %>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="guess" value="" placeholder="" required="True"/>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <input class="btn btn-primary" type="submit" value="Submit" /> 
+                </div>
+                <% } %>
+
+                <% if (session.status == 'gameover') { %>
+                <a href="/reset" class="btn btn-warning" role="button" name="reset">Start Over</a>
+                <% } %>
+            </form>
+        </div>
+
+    </div>
+</body>
+</html>
